@@ -1,0 +1,36 @@
+{
+	"name": "@10up/metrics-generator",
+	"version": "1.0.0",
+	"description": "Generate metrics data for GitHub repository.",
+	"license": "MIT",
+	"repository": "10up/metrics-generator",
+	"author": {
+		"name": "10up",
+		"email": "opensource@10up.com",
+		"url": "https://10up.com"
+	},
+	"type": "module",
+	"engines": {
+		"node": ">=12"
+	},
+	"scripts": {
+		"test": "xo && ava"
+	},
+	"main": "cli.js",
+	"bin": {
+		"metrics-generator": "cli.js"
+	},
+	"files": [
+		"cli.js"
+	],
+	"keywords": [
+		"cli",
+		"cli-app",
+		"fun"
+	],
+	"dependencies": {
+		"execa": "^6.1.0",
+		"meow": "^10.1.2",
+		"octokit": "^1.7.1"
+	}
+}
