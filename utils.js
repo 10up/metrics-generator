@@ -92,7 +92,8 @@ export const getClosedIssuesCount = async (octokit, owner, repo, from, to) => {
 
 	const filteredIssues = issues.filter((issue) => {
 		return (
-			new Date(issue.closed_at).getTime() <= to && issue.state === "closed"
+			new Date(issue.closed_at).getTime() >= from &&
+			new Date(issue.closed_at).getTime() <= to
 		);
 	});
 
@@ -108,8 +109,13 @@ export const getOpenIssuesCount = async (octokit, owner, repo, from, to) => {
 	);
 
 	const filteredIssues = issues.filter((issue) => {
-		return new Date(issue.created_at).getTime() <= to && issue.state === "open";
+		return (
+			new Date(issue.created_at).getTime() >= from &&
+			new Date(issue.created_at).getTime() <= to
+		);
 	});
+
+	console.log(filteredIssues);
 
 	return filteredIssues.length;
 };
