@@ -90,12 +90,17 @@ async function run() {
 	const to = cli.flags.to ? new Date(cli.flags.to).getTime() : Date.now();
 
 	const result = {
-		repo,
-		owner,
 		watchers: repoInfo.data.subscribers_count,
-		stargazers: repoInfo.data.stargazers_count,
+		stars: repoInfo.data.stargazers_count,
 		forks: repoInfo.data.forks_count,
 		releases: await utils.getReleasesCount(octokit, owner, repo, from, to),
+		...(cli.flags.wpSlug ? {
+			orgDownloads : await utils.getOrgDownloadsCount(cli.flags.wpSlug),
+			orgActiveInstalls: await utils.getOrgActiveInstallsCount(
+				cli.flags.wpSlug
+			),
+			orgAverageRatings: await utils.getOrgRatings(cli.flags.wpSlug),
+		} : {}),
 		openIssues: await utils.getOpenIssuesCount(octokit, owner, repo, from, to),
 		closedIssues: await utils.getClosedIssuesCount(
 			octokit,
@@ -104,29 +109,15 @@ async function run() {
 			from,
 			to
 		),
-		openPulls: await utils.getOpenPullsCount(octokit, owner, repo, from, to),
-		closedPulls: await utils.getClosedPullsCount(
+		openPullRequests: await utils.getOpenPullsCount(octokit, owner, repo, from, to),
+		closedPullRequests: await utils.getClosedPullsCount(
 			octokit,
 			owner,
 			repo,
 			from,
 			to
 		),
-		mergedPulls: await utils.getMergedPullsCount(
-			octokit,
-			owner,
-			repo,
-			from,
-			to
-		),
-		internalCommits: await utils.getInternalCommitsCount(
-			octokit,
-			owner,
-			repo,
-			from,
-			to
-		),
-		externalCommits: await utils.getExternalCommitsCount(
+		mergedPullRequests: await utils.getMergedPullsCount(
 			octokit,
 			owner,
 			repo,
@@ -147,16 +138,21 @@ async function run() {
 			from,
 			to
 		),
+		internalCommits: await utils.getInternalCommitsCount(
+			octokit,
+			owner,
+			repo,
+			from,
+			to
+		),
+		externalCommits: await utils.getExternalCommitsCount(
+			octokit,
+			owner,
+			repo,
+			from,
+			to
+		),
 	};
-
-	if (cli.flags.wpSlug) {
-		result.wpSlug = cli.flags.wpSlug;
-		result.orgDownloads = await utils.getOrgDownloadsCount(cli.flags.wpSlug);
-		result.orgActiveInstalls = await utils.getOrgActiveInstallsCount(
-			cli.flags.wpSlug
-		);
-		result.orgRatings = await utils.getOrgRatings(cli.flags.wpSlug);
-	}
 
 	let markdown = `| Metric | ${cli.flags.from} - ${cli.flags.to} |\n`;
 	markdown += `| --- | --- |\n`;
