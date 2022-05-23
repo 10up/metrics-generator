@@ -115,7 +115,74 @@ export const getOpenIssuesCount = async (octokit, owner, repo, from, to) => {
 		);
 	});
 
-	console.log(filteredIssues);
-
 	return filteredIssues.length;
 };
+
+export const getPulls = async ( octokit, owner, repo, since, pulls = [], page = 1) => {
+	if (cache.pulls) {
+		return cache.pulls;
+	}
+	const batch = await octokit.request("GET /repos/{owner}/{repo}/pulls", {
+		owner,
+		repo,
+		per_page: 100,
+		page,
+		since,
+		state: "all",
+	});
+
+	if (batch.status !== 200) {
+		return pulls;
+	}
+
+	const newPulls = [...pulls, ...batch.data];
+
+	if (batch.data.length >= 100) {
+		return getPulls(octokit, owner, repo, since, newPulls, page + 1);
+	}
+
+	cache.pulls = newPulls;
+
+	return newPulls;
+}
+
+export const getOpenPullsCount = async (octokit, owner, repo, from, to) => {
+	const pulls = await getPulls(octokit, owner, repo);
+
+	const filteredPulls = pulls.filter((pull) => {
+		return (
+			new Date(pull.created_at).getTime() >= from &&
+			new Date(pull.created_at).getTime() <= to
+		);
+	});
+
+	return filteredPulls.length;
+}
+
+export const getClosedPullsCount = async (octokit, owner, repo, from, to) => {
+	const pulls = await getPulls(octokit, owner, repo);
+
+	const filteredPulls = pulls.filter((pull) => {
+		return (
+			! pull.merged_at &&
+			new Date(pull.closed_at).getTime() >= from &&
+			new Date(pull.closed_at).getTime() <= to
+		);
+	});
+
+	return filteredPulls.length;
+}
+
+export const getMergedPullsCount = async (octokit, owner, repo, from, to) => {
+	const pulls = await getPulls(octokit, owner, repo);
+
+	const filteredPulls = pulls.filter((pull) => {
+		return (
+			pull.merged_at &&
+			new Date(pull.merged_at).getTime() >= from &&
+			new Date(pull.merged_at).getTime() <= to
+		);
+	});
+
+	return filteredPulls.length;
+}
