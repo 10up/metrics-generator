@@ -1,14 +1,7 @@
 #!/usr/bin/env node
 import meow from "meow";
 import { Octokit } from "octokit";
-import {
-	getReleasesCount,
-	getClosedIssuesCount,
-	getOpenIssuesCount,
-	getClosedPullsCount,
-	getOpenPullsCount,
-	getMergedPullsCount,
-} from "./utils.js";
+import * as utils from "./utils.js";
 
 async function run() {
 	const cli = meow(
@@ -70,12 +63,16 @@ async function run() {
 		watchers: repoInfo.data.subscribers_count,
 		stargazers: repoInfo.data.stargazers_count,
 		forks: repoInfo.data.forks_count,
-		releases: await getReleasesCount(octokit, owner, repo, from, to),
-		openIssues: await getOpenIssuesCount(octokit, owner, repo, from, to),
-		closedIssues: await getClosedIssuesCount(octokit, owner, repo, from, to),
-		openPulls: await getOpenPullsCount(octokit, owner, repo, from, to),
-		closedPulls: await getClosedPullsCount(octokit, owner, repo, from, to),
-		mergedPulls: await getMergedPullsCount(octokit, owner, repo, from, to),
+		releases: await utils.getReleasesCount(octokit, owner, repo, from, to),
+		openIssues: await utils.getOpenIssuesCount(octokit, owner, repo, from, to),
+		closedIssues: await utils.getClosedIssuesCount( octokit, owner, repo, from, to ),
+		openPulls: await utils.getOpenPullsCount(octokit, owner, repo, from, to),
+		closedPulls: await utils.getClosedPullsCount( octokit, owner, repo, from, to ),
+		mergedPulls: await utils.getMergedPullsCount( octokit, owner, repo, from, to ),
+		internalCommits: await utils.getInternalCommitsCount( octokit, owner, repo, from, to ),
+		externalCommits: await utils.getExternalCommitsCount( octokit, owner, repo, from, to ),
+		internalContributors: await utils.getInternalContributorsCount( octokit, owner, repo, from, to ),
+		externalContributors: await utils.getExternalContributorsCount( octokit, owner, repo, from, to ),
 	};
 
 	console.log(result);
