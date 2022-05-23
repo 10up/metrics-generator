@@ -29,9 +29,11 @@
 		"fun"
 	],
 	"dependencies": {
+		"change-case": "^4.1.2",
 		"execa": "^6.1.0",
 		"meow": "^10.1.2",
 		"node-fetch": "^3.2.4",
-		"octokit": "^1.7.1"
+		"octokit": "^1.7.1",
+		"showdown": "^2.1.0"
 	}
 }

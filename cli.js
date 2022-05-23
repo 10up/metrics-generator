@@ -2,6 +2,9 @@
 import meow from "meow";
 import { Octokit } from "octokit";
 import * as utils from "./utils.js";
+import fs from "fs";
+import showdown from "showdown";
+import { capitalCase } from "change-case";
 
 async function run() {
 	const cli = meow(
@@ -33,6 +36,22 @@ async function run() {
 				slug: {
 					type: "string",
 					default: "",
+				},
+				outputDir: {
+					type: "string",
+					default: ".",
+				},
+				html: {
+					type: "boolean",
+					default: true,
+				},
+				json: {
+					type: "boolean",
+					default: false,
+				},
+				md: {
+					type: "boolean",
+					default: false,
 				},
 			},
 		}
@@ -69,24 +88,110 @@ async function run() {
 		forks: repoInfo.data.forks_count,
 		releases: await utils.getReleasesCount(octokit, owner, repo, from, to),
 		openIssues: await utils.getOpenIssuesCount(octokit, owner, repo, from, to),
-		closedIssues: await utils.getClosedIssuesCount( octokit, owner, repo, from, to ),
+		closedIssues: await utils.getClosedIssuesCount(
+			octokit,
+			owner,
+			repo,
+			from,
+			to
+		),
 		openPulls: await utils.getOpenPullsCount(octokit, owner, repo, from, to),
-		closedPulls: await utils.getClosedPullsCount( octokit, owner, repo, from, to ),
-		mergedPulls: await utils.getMergedPullsCount( octokit, owner, repo, from, to ),
-		internalCommits: await utils.getInternalCommitsCount( octokit, owner, repo, from, to ),
-		externalCommits: await utils.getExternalCommitsCount( octokit, owner, repo, from, to ),
-		internalContributors: await utils.getInternalContributorsCount( octokit, owner, repo, from, to ),
-		externalContributors: await utils.getExternalContributorsCount( octokit, owner, repo, from, to ),
+		closedPulls: await utils.getClosedPullsCount(
+			octokit,
+			owner,
+			repo,
+			from,
+			to
+		),
+		mergedPulls: await utils.getMergedPullsCount(
+			octokit,
+			owner,
+			repo,
+			from,
+			to
+		),
+		internalCommits: await utils.getInternalCommitsCount(
+			octokit,
+			owner,
+			repo,
+			from,
+			to
+		),
+		externalCommits: await utils.getExternalCommitsCount(
+			octokit,
+			owner,
+			repo,
+			from,
+			to
+		),
+		internalContributors: await utils.getInternalContributorsCount(
+			octokit,
+			owner,
+			repo,
+			from,
+			to
+		),
+		externalContributors: await utils.getExternalContributorsCount(
+			octokit,
+			owner,
+			repo,
+			from,
+			to
+		),
 	};
 
 	if (cli.flags.slug) {
 		result.slug = cli.flags.slug;
-		result.orgDownloads = await utils.getOrgDownloadsCount( cli.flags.slug );
-		result.orgActiveInstalls = await utils.getOrgActiveInstallsCount( cli.flags.slug );
-		result.orgRatings = await utils.getOrgRatings( cli.flags.slug );
+		result.orgDownloads = await utils.getOrgDownloadsCount(cli.flags.slug);
+		result.orgActiveInstalls = await utils.getOrgActiveInstallsCount(
+			cli.flags.slug
+		);
+		result.orgRatings = await utils.getOrgRatings(cli.flags.slug);
 	}
 
-	console.log(result);
+	let markdown = `| Metric | ${cli.flags.from} - ${cli.flags.to} |\n`;
+	markdown += `| --- | --- |\n`;
+
+	Object.keys(result).forEach((key) => {
+		markdown += `| ${capitalCase(key)} | ${result[key]} |\n`;
+	});
+
+	if (cli.flags.html) {
+		const converter = new showdown.Converter({ tables: true });
+		const html = converter.makeHtml(markdown);
+		fs.writeFileSync(
+			`${cli.flags.outputDir.replace(/\/+$/, "")}/${repo}.html`,
+			html
+		);
+		const stream = fs.createWriteStream(
+			`${cli.flags.outputDir.replace(/\/+$/, "")}/${repo}.html`
+		);
+		stream.write("<!DOCTYPE html>");
+		stream.write("<html>");
+		stream.write("<head>");
+		stream.write('<meta charset="utf-8">');
+		stream.write(`<title>${cli.flags.repo} Metrics</title>`);
+		stream.write('<link rel="stylesheet" href="https://unpkg.com/bamboo.css">');
+		stream.write("<head>");
+		stream.write("<body>");
+		stream.write(html);
+		stream.write("</body>");
+		stream.write("</html>");
+	}
+
+	if (cli.flags.json) {
+		fs.writeFileSync(
+			`${cli.flags.outputDir.replace(/\/+$/, "")}/${repo}.json`,
+			JSON.stringify(result, null, 2)
+		);
+	}
+
+	if (cli.flags.md) {
+		fs.writeFileSync(
+			`${cli.flags.outputDir.replace(/\/+$/, "")}/${repo}.md`,
+			markdown
+		);
+	}
 }
 
 run();
