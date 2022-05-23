@@ -1,3 +1,5 @@
+import fetch from "node-fetch";
+
 // Dump cache
 const cache = {};
 
@@ -301,7 +303,13 @@ export const getExternalCommitsCount = async (
 	return filteredCommits.length;
 };
 
-export const getInternalContributorsCount = async ( octokit, owner, repo, from, to ) => {
+export const getInternalContributorsCount = async (
+	octokit,
+	owner,
+	repo,
+	from,
+	to
+) => {
 	const commits = await getCommits(
 		octokit,
 		owner,
@@ -310,16 +318,26 @@ export const getInternalContributorsCount = async ( octokit, owner, repo, from, 
 		new Date(to).toISOString()
 	);
 
-	const members = await getOrgMembers( octokit, owner );
+	const members = await getOrgMembers(octokit, owner);
 
-	const contributors = [...new Set(commits.map( commit => commit.author.login ))];
+	const contributors = [
+		...new Set(commits.map((commit) => commit.author.login)),
+	];
 
-	const filteredContributors = contributors.filter( contributor => members.includes( contributor ) );
+	const filteredContributors = contributors.filter((contributor) =>
+		members.includes(contributor)
+	);
 
 	return filteredContributors.length;
-}
+};
 
-export const getExternalContributorsCount = async ( octokit, owner, repo, from, to ) => {
+export const getExternalContributorsCount = async (
+	octokit,
+	owner,
+	repo,
+	from,
+	to
+) => {
 	const commits = await getCommits(
 		octokit,
 		owner,
@@ -328,11 +346,49 @@ export const getExternalContributorsCount = async ( octokit, owner, repo, from, 
 		new Date(to).toISOString()
 	);
 
-	const members = await getOrgMembers( octokit, owner );
+	const members = await getOrgMembers(octokit, owner);
 
-	const contributors = [...new Set(commits.map( commit => commit.author.login ))];
+	const contributors = [
+		...new Set(commits.map((commit) => commit.author.login)),
+	];
 
-	const filteredContributors = contributors.filter( contributor => !members.includes( contributor ) );
+	const filteredContributors = contributors.filter(
+		(contributor) => !members.includes(contributor)
+	);
 
 	return filteredContributors.length;
-}
+};
+
+const getOrgStats = async (slug) => {
+	if (cache.stats) {
+		return cache.stats;
+	}
+	const apiUrl = `https://api.wordpress.org/plugins/info/1.2/?action=plugin_information&request[slug]=${slug}&request[fields][downloaded]=1`;
+
+	const respone = await fetch(apiUrl);
+
+	cache.stats = await respone.json();
+
+	return cache.stats;
+};
+
+export const getOrgDownloadsCount = async (slug) => {
+	const stats = await getOrgStats(slug);
+	return stats.downloaded;
+};
+
+export const getOrgActiveInstallsCount = async (slug) => {
+	const stats = await getOrgStats(slug);
+	return stats.active_installs;
+};
+
+export const getOrgRatings = async (slug) => {
+	const stats = await getOrgStats(slug);
+	const ratings = stats.ratings;
+
+	const total = Object.keys(ratings).reduce((acc, key) => {
+		return acc + ratings[key] * parseInt(key);
+	}, 0);
+
+	return Math.round((total / stats.num_ratings) * 10) / 10;
+};

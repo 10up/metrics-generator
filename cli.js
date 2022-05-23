@@ -30,6 +30,10 @@ async function run() {
 					type: "string",
 					default: "",
 				},
+				slug: {
+					type: "string",
+					default: "",
+				},
 			},
 		}
 	);
@@ -74,6 +78,13 @@ async function run() {
 		internalContributors: await utils.getInternalContributorsCount( octokit, owner, repo, from, to ),
 		externalContributors: await utils.getExternalContributorsCount( octokit, owner, repo, from, to ),
 	};
+
+	if (cli.flags.slug) {
+		result.slug = cli.flags.slug;
+		result.orgDownloads = await utils.getOrgDownloadsCount( cli.flags.slug );
+		result.orgActiveInstalls = await utils.getOrgActiveInstallsCount( cli.flags.slug );
+		result.orgRatings = await utils.getOrgRatings( cli.flags.slug );
+	}
 
 	console.log(result);
 }
