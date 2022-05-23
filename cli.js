@@ -90,6 +90,8 @@ async function run() {
 	const to = cli.flags.to ? new Date(cli.flags.to).getTime() : Date.now();
 
 	const result = {
+		repo,
+		owner,
 		watchers: repoInfo.data.subscribers_count,
 		stars: repoInfo.data.stargazers_count,
 		forks: repoInfo.data.forks_count,

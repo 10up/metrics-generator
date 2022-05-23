@@ -37,47 +37,45 @@ ads-txt.html ads-txt.json ads-txt.md
   "repo": "ads-txt",
   "owner": "10up",
   "watchers": 48,
-  "stargazers": 40,
+  "stars": 40,
   "forks": 22,
   "releases": 0,
+  "orgDownloads": 509284,
+  "orgActiveInstalls": 100000,
+  "orgAverageRatings": 4.5,
   "openIssues": 0,
   "closedIssues": 2,
-  "openPulls": 4,
-  "closedPulls": 1,
-  "mergedPulls": 4,
-  "internalCommits": 35,
-  "externalCommits": 2,
+  "openPullRequests": 4,
+  "closedPullRequests": 1,
+  "mergedPullRequests": 4,
   "internalContributors": 3,
   "externalContributors": 1,
-  "wpSlug": "ads-txt",
-  "orgDownloads": 509259,
-  "orgActiveInstalls": 100000,
-  "orgRatings": 4.5
+  "internalCommits": 35,
+  "externalCommits": 2
 }
 ```
 ### The generated markdown file:
-
 | Metric | 01 Feb 2022 - 28 Feb 2022 |
 | --- | --- |
 | Repo | ads-txt |
 | Owner | 10up |
 | Watchers | 48 |
-| Stargazers | 40 |
+| Stars | 40 |
 | Forks | 22 |
 | Releases | 0 |
+| Org Downloads | 509284 |
+| Org Active Installs | 100000 |
+| Org Average Ratings | 4.5 |
 | Open Issues | 0 |
 | Closed Issues | 2 |
-| Open Pulls | 4 |
-| Closed Pulls | 1 |
-| Merged Pulls | 4 |
-| Internal Commits | 35 |
-| External Commits | 2 |
+| Open Pull Requests | 4 |
+| Closed Pull Requests | 1 |
+| Merged Pull Requests | 4 |
 | Internal Contributors | 3 |
 | External Contributors | 1 |
-| Wp Slug | ads-txt |
-| Org Downloads | 509259 |
-| Org Active Installs | 100000 |
-| Org Ratings | 4.5 |
+| Internal Commits | 35 |
+| External Commits | 2 |
+
 
 ### Notes:
 - Due to the limitation of the WordPress.org API, the downloaded count is the latest count, regardless of time range.
