@@ -14,7 +14,7 @@ async function run() {
 
 	Options:
 	  --pat       Personal access token.
-	  --repo      Full repository name. Ex: 10up/ads-txt
+	  --repo      Full repository name. Ex: 10up/ads-txt.
 	  --from      Start date. Accepts Date.parse() compatible formats.
 	  --to        End date. Accepts Date.parse() compatible formats.
 	  --wpSlug    The plugin handle on wordpress.org.
