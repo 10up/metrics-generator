@@ -13,7 +13,16 @@ async function run() {
 	  $ metrics-generator
 
 	Options:
-	  --pat         Personal access token.
+	  --pat       Personal access token.
+	  --repo      Full repository name. Ex: 10up/ads-txt
+	  --from      Start date. Accepts Date.parse() compatible formats.
+	  --to        End date. Accepts Date.parse() compatible formats.
+	  --wpSlug    The plugin handle on wordpress.org.
+	  --outputDir Directory for output files.
+	  --html      Enable HTML output. Boolean. Enabled by default.
+	  --json      Enable JSON output. Boolean. Disabled by default.
+	  --md        Enable Markdown output. Boolean. Disabled by default.
+	  --help      Show help.
 `,
 		{
 			importMeta: import.meta,
@@ -33,7 +42,7 @@ async function run() {
 					type: "string",
 					default: "",
 				},
-				slug: {
+				wpSlug: {
 					type: "string",
 					default: "",
 				},
@@ -140,13 +149,13 @@ async function run() {
 		),
 	};
 
-	if (cli.flags.slug) {
-		result.slug = cli.flags.slug;
-		result.orgDownloads = await utils.getOrgDownloadsCount(cli.flags.slug);
+	if (cli.flags.wpSlug) {
+		result.wpSlug = cli.flags.wpSlug;
+		result.orgDownloads = await utils.getOrgDownloadsCount(cli.flags.wpSlug);
 		result.orgActiveInstalls = await utils.getOrgActiveInstallsCount(
-			cli.flags.slug
+			cli.flags.wpSlug
 		);
-		result.orgRatings = await utils.getOrgRatings(cli.flags.slug);
+		result.orgRatings = await utils.getOrgRatings(cli.flags.wpSlug);
 	}
 
 	let markdown = `| Metric | ${cli.flags.from} - ${cli.flags.to} |\n`;
