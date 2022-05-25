@@ -27,7 +27,7 @@ Run this command in the root directory of a GitHub repository.
 ## Example
 
 ```sh
-% npx github:10up/metrics-generator --repo=10up/ads-txt --from='01 Feb 2022' --to='28 Feb 2022' --pat=<github_personal_access_token> --slug=ads-txt --md --json
+% npx github:10up/metrics-generator --repo=10up/ads-txt --from='01 Feb 2022' --to='28 Feb 2022' --pat=<github_personal_access_token> --wpSlug=ads-txt --md --json
 
 % ls
 ads-txt.html ads-txt.json ads-txt.md
