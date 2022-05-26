@@ -99,7 +99,7 @@ A complete listing of all notable changes to Metrics Generator are documented in
 
 ## Contributing
 
-Please read [CODE_OF_CONDUCT.md](https://github.com/10up/metrics-generator/blob/develop/CODE_OF_CONDUCT.md) for details on our code of conduct and [CONTRIBUTING.md](https://github.com/10up/metrics-generator/blob/develop/CONTRIBUTING.md) for details on the process for submitting pull requests to us.
+Please read [CODE_OF_CONDUCT.md](https://github.com/10up/metrics-generator/blob/develop/CODE_OF_CONDUCT.md) for details on our code of conduct, [CONTRIBUTING.md](https://github.com/10up/metrics-generator/blob/develop/CONTRIBUTING.md) for details on the process for submitting pull requests to us, and [CREDITS.md](https://github.com/10up/metrics-generator/blob/develop/CREDITS.md) for a list of maintainers, contributors, and libraries used in this repository.
 
 ## Like what you see?
 
