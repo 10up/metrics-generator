@@ -1,9 +1,12 @@
-# metrics-generator
+# Metrics Generator
 
 > This command collects metrics for a GitHub repository and generates reports in multiple formats.
 
+[![Support Level](https://img.shields.io/badge/support-beta-blueviolet.svg)](#support-level) [![MIT License](https://img.shields.io/github/license/10up/metrics-generator.svg)](https://github.com/10up/metrics-generator/blob/trunk/LICENSE.md)
+
 ## Usage
-Run this command in the root directory of a GitHub repository.
+
+Run this command in the root directory of a GitHub repository:
 
 ```sh
 ~/workspace/wpcs-action
@@ -24,7 +27,8 @@ Run this command in the root directory of a GitHub repository.
     --md        Enable Markdown output. Boolean. Disabled by default.
     --help      Show help.
 ```
-## Example
+
+### Example command run
 
 ```sh
 % npx github:10up/metrics-generator --repo=10up/ads-txt --from='01 Feb 2022' --to='28 Feb 2022' --pat=<github_personal_access_token> --wpSlug=ads-txt --md --json
@@ -54,7 +58,9 @@ ads-txt.html ads-txt.json ads-txt.md
   "externalCommits": 2
 }
 ```
-### The generated markdown file:
+
+### Example output markdown file
+
 | Metric | 01 Feb 2022 - 28 Feb 2022 |
 | --- | --- |
 | Repo | ads-txt |
@@ -76,9 +82,25 @@ ads-txt.html ads-txt.json ads-txt.md
 | Internal Commits | 35 |
 | External Commits | 2 |
 
+### Notes
 
-### Notes:
 - Due to the limitation of the WordPress.org API, the downloaded count is the latest count, regardless of time range.
 - This only works with GitHub repositories.
 - For WordPress metrics, this command only supports plugins for now.
 - Due to the rate limit of unauthorized API access, we may need PAT to ensure GitHub doesn't block our requests. Personal Access Token can be created [here](https://github.com/settings/tokens), `read:org` scope is required to query concealed contributors.
+
+## Support Level
+
+**Beta:** This project is quite new and we're not sure what our ongoing support level for this will be. Bug reports, feature requests, questions, and pull requests are welcome. If you like this project please let us know, but be cautious using this in a Production environment!
+
+## Changelog
+
+A complete listing of all notable changes to Metrics Generator are documented in [CHANGELOG.md](https://github.com/10up/metrics-generator/blob/develop/CHANGELOG.md).
+
+## Contributing
+
+Please read [CODE_OF_CONDUCT.md](https://github.com/10up/metrics-generator/blob/develop/CODE_OF_CONDUCT.md) for details on our code of conduct, [CONTRIBUTING.md](https://github.com/10up/metrics-generator/blob/develop/CONTRIBUTING.md) for details on the process for submitting pull requests to us, and [CREDITS.md](https://github.com/10up/metrics-generator/blob/develop/CREDITS.md) for a list of maintainers, contributors, and libraries used in this repository.
+
+## Like what you see?
+
+<a href="http://10up.com/contact/"><img src="https://10up.com/uploads/2016/10/10up-Github-Banner.png" width="850"></a>
