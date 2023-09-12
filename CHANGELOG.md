@@ -4,10 +4,11 @@ All notable changes to this project will be documented in this file, per [the Ke
 
 ## [Unreleased]
 
-## [1.0.0] - 2022-MM-DD
+## [0.1.0] - 2023-09-13
+
 ### Added
+
 - Initial public release. 🎉
 
 [Unreleased]: https://github.com/10up/metrics-generator/compare/trunk...develop
-[1.0.1]: https://github.com/10up/metrics-generator/compare/1.0.0..1.0.1
-[1.0]: https://github.com/10up/metrics-generator/releases/tag/1.0.0
+[0.1.0]: https://github.com/10up/metrics-generator/releases/tag/0.1.0
