@@ -2,7 +2,10 @@
 
 > This command collects metrics for a GitHub repository and generates reports in multiple formats.
 
-[![Support Level](https://img.shields.io/badge/support-beta-blueviolet.svg)](#support-level) [![MIT License](https://img.shields.io/github/license/10up/metrics-generator.svg)](https://github.com/10up/metrics-generator/blob/trunk/LICENSE.md)
+[![Support Level](https://img.shields.io/badge/support-archived-red.svg)](#support-level) [![MIT License](https://img.shields.io/github/license/10up/metrics-generator.svg)](https://github.com/10up/metrics-generator/blob/trunk/LICENSE.md)
+
+> [!CAUTION]
+> As of 10 February 2026, this project is archived and no longer being actively maintained.
 
 ## Usage
 
@@ -91,7 +94,7 @@ ads-txt.html ads-txt.json ads-txt.md
 
 ## Support Level
 
-**Beta:** This project is quite new and we're not sure what our ongoing support level for this will be. Bug reports, feature requests, questions, and pull requests are welcome. If you like this project please let us know, but be cautious using this in a Production environment!
+**Archived:** This project is no longer maintained by 10up. We are no longer responding to Issues or Pull Requests unless they relate to security concerns. We encourage interested developers to fork this project and make it their own!
 
 ## Changelog
 
